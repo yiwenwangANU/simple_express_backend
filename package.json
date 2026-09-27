@@ -3,11 +3,16 @@
   "module": "index.ts",
   "type": "module",
   "private": true,
+  "scripts": {
+    "dev": "bun src/app.ts ",
+    "format": "bunx prettier . --write"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "@types/express": "^5.0.6",
     "@types/node": "^26.6.3",
     "@types/pg": "^8.23.1",
+    "prettier": "3.9.9",
     "prisma": "^7.10.0"
   },
   "peerDependencies": {
