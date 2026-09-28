@@ -26,7 +26,7 @@ const register = async (req: Request, res: Response) => {
   const token = generateToken(user.id, res);
 
   return res.status(201).json({
-    status: "success",
+    status: "Success",
     data: {
       id: user.id,
       name: user.name,
@@ -53,7 +53,7 @@ const login = async (req: Request, res: Response) => {
   const token = generateToken(user.id, res);
 
   return res.status(200).json({
-    status: "success",
+    status: "Success",
     data: {
       id: user.id,
       name: user.name,
@@ -70,7 +70,7 @@ const logout = (req: Request, res: Response) => {
     secure: process.env.NODE_ENV === "production",
   });
   res.status(200).json({
-    status: "success",
+    status: "Success",
     data: {
       message: "Logout successfully.",
     },
