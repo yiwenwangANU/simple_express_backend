@@ -6,8 +6,14 @@ const generateToken = (id: string, res: Response) => {
   if (!secret) {
     throw new Error("JWT_SECRET is not set");
   }
-  const token = jwt.sign(id, secret);
-  res.cookie("jwt", token);
+  const payload = { id };
+  const token = jwt.sign(payload, secret, { expiresIn: "7d" });
+  res.cookie("jwt", token, {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  });
   return token;
 };
 

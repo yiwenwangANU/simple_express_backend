@@ -22,9 +22,7 @@ const register = async (req: Request, res: Response) => {
       password: hashedPassword,
     },
   });
-  if (!user) {
-    throw new Error("User create failed.");
-  }
+
   const token = generateToken(user.id, res);
 
   return res.status(201).json({
@@ -54,7 +52,7 @@ const login = async (req: Request, res: Response) => {
   }
   const token = generateToken(user.id, res);
 
-  return res.status(201).json({
+  return res.status(200).json({
     status: "success",
     data: {
       id: user.id,
@@ -65,4 +63,18 @@ const login = async (req: Request, res: Response) => {
   });
 };
 
-export { register, login };
+const logout = (req: Request, res: Response) => {
+  res.clearCookie("jwt", {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
+  });
+  res.status(200).json({
+    status: "success",
+    data: {
+      message: "Logout successfully.",
+    },
+  });
+};
+
+export { register, login, logout };
