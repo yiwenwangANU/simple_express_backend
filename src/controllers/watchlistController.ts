@@ -43,4 +43,31 @@ const addToWatchlist = async (req: Request, res: Response) => {
   });
 };
 
-export { addToWatchlist };
+const removeFromWatchlist = async (
+  req: Request<{ id: string }>,
+  res: Response,
+) => {
+  if (!req.user) {
+    return res.status(401).json({ error: "Unauthorized action." });
+  }
+  const watchlistExist = await prisma.watchlistItem.findUnique({
+    where: { id: req.params.id },
+  });
+  if (!watchlistExist) {
+    return res.status(404).json({ error: "Watchlist item not exist." });
+  }
+
+  if (req.user.id !== watchlistExist.userId) {
+    return res.status(403).json({ error: "Unauthorized action." });
+  }
+  await prisma.watchlistItem.delete({
+    where: {
+      id: req.params.id,
+    },
+  });
+  res.status(200).json({
+    status: "Success",
+    message: "Movie remove from watchlist successfully.",
+  });
+};
+export { addToWatchlist, removeFromWatchlist };
