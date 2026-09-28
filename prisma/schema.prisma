@@ -21,16 +21,16 @@ model User {
 model Movie {
   id          String   @id @default(uuid())
   title       String
-  overView    String?
-  releaseYear String
+  overview    String?
+  releaseYear Int
   genres      String[] @default([])
   runtime     Int?
   posterUrl   String?
   createdAt   DateTime @default(now())
 
   watchLists WatchlistItem[]
-  createBy   String
-  creator    User            @relation("movieCreator", fields: [createBy], references: [id])
+  createdBy   String
+  creator    User            @relation("movieCreator", fields: [createdBy], references: [id])
 }
 
 model WatchlistItem {

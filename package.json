@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "bun src/app.ts ",
-    "format": "bunx prettier . --write"
+    "format": "bunx prettier . --write",
+    "seed": "bun prisma/seed.ts"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",

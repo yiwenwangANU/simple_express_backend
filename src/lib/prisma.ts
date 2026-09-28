@@ -7,4 +7,15 @@ const connectionString = `${process.env.DATABASE_URL}`;
 const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({ adapter });
 
-export { prisma };
+const connectDB = async () => {
+  try {
+    await prisma.$connect();
+    console.log("DB connected via prisma.");
+  } catch (e) {
+    console.log("DB connection fails.");
+    process.exit(1);
+  }
+};
+const disconnectDB = async () => await prisma.$disconnect();
+
+export { prisma, connectDB, disconnectDB };
