@@ -43,6 +43,45 @@ const addToWatchlist = async (req: Request, res: Response) => {
   });
 };
 
+const updateWatchlist = async (req: Request<{ id: string }>, res: Response) => {
+  if (!req.user) {
+    return res.status(401).json({ error: "Unauthorized action." });
+  }
+  const watchlistItem = await prisma.watchlistItem.findUnique({
+    where: {
+      id: req.params.id,
+    },
+  });
+  if (!watchlistItem) {
+    return res.status(404).json({ error: "Watchlist item not exist." });
+  }
+  if (watchlistItem.userId !== req.user.id) {
+    return res.status(403).json({ error: "Unauthorized action." });
+  }
+  const { status, rating, notes, movieId } = req.body;
+  const movie = await prisma.movie.findUnique({
+    where: {
+      id: movieId,
+    },
+  });
+  if (!movie) {
+    return res.status(404).json({ error: "Movie not exist." });
+  }
+  const updatedWatchlistItem = await prisma.watchlistItem.update({
+    where: { id: req.params.id },
+    data: {
+      status,
+      rating,
+      notes,
+    },
+  });
+  res.status(200).json({
+    status: "Success",
+    data: updatedWatchlistItem,
+    message: "Watchlist updated successfully.",
+  });
+};
+
 const removeFromWatchlist = async (
   req: Request<{ id: string }>,
   res: Response,
@@ -70,4 +109,4 @@ const removeFromWatchlist = async (
     message: "Movie remove from watchlist successfully.",
   });
 };
-export { addToWatchlist, removeFromWatchlist };
+export { addToWatchlist, updateWatchlist, removeFromWatchlist };

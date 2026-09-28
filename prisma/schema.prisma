@@ -29,7 +29,7 @@ model Movie {
   createdAt   DateTime @default(now())
 
   watchLists WatchlistItem[]
-  createdBy   String
+  createdBy  String
   creator    User            @relation("movieCreator", fields: [createdBy], references: [id])
 }
 
@@ -38,8 +38,8 @@ model WatchlistItem {
   status    WatchlistStatus @default(PLANNED)
   rating    Int?
   notes     String?
-  createdBy DateTime        @default(now())
-  updatedBy DateTime        @default(now())
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @default(now())
 
   userId  String
   movieId String
