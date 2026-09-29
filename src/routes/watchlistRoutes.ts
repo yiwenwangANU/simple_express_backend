@@ -9,7 +9,7 @@ import authMiddleware from "../middleware/authMiddleware";
 const router = Router();
 
 router.post("/", authMiddleware, addToWatchlist);
-router.put("/", authMiddleware, updateWatchlist);
+router.put("/:id", authMiddleware, updateWatchlist);
 router.delete("/:id", authMiddleware, removeFromWatchlist);
 
 export default router;
